@@ -1,0 +1,11 @@
+JSONファイルのキーの意味
+"title":メッセージの題名
+  "request":リクエスト,"react":返事
+"contents":台帳に記録する内容
+  文字列
+"requestID":リクエスト判別のID
+  "アドレス:数値"
+
+address.txtの書き方
+1行目:自分のIP
+2行目以降:接続先のIP
