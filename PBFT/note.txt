@@ -1,10 +1,16 @@
 JSONファイルのキーの意味
 "title":メッセージの題名
-  "request":リクエスト,"react":返事
+  "request":リクエスト,"react":返事,"wrote":記帳した合図
 "contents":台帳に記録する内容
   文字列
 "requestID":リクエスト判別のID
   "アドレス:数値"
+"key":公開鍵
+  "数値"
+"mod_num":法
+  "数値"
+"permission":署名認証の結果
+  "permited":許可,"denied":拒否
 
 address.txtの書き方
 1行目:自分のIP
