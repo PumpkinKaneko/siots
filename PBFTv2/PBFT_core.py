@@ -21,7 +21,6 @@ def msg_reaction(client, server, rec_msg):
     react_func(rec_json, client["address"][0])
 
 def react_func(json_file, sender_add):
-    print (json_file)
     title = json_file["title"]
     requestID = json_file["requestID"]
     if title == "request":
@@ -38,7 +37,6 @@ def react_func(json_file, sender_add):
     elif title == "react" and requestID in request_data:
         if json_file["permission"] == "permited":
             request_data[requestID]["num_per"] += 1
-            print("popopo")
             if request_data[requestID]["num_per"] >= ws_per_rate:
                 MP.write_ledger(request_data[requestID]["contents"])
                 ws_to_leaf(request_data[requestID]["sender_add"], "Transaction_was_written")
@@ -104,7 +102,6 @@ if __name__ == "__main__":
     ws_list = ws_core_connect(address)
     ws_per_rate = len(ws_list) * 2 / 3
     ws_den_rate = len(ws_list) / 3
-    print(ws_per_rate)
     ws_leaf = {}
     server_ready = True
     while True:
