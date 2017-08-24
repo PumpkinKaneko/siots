@@ -1,5 +1,7 @@
 # coding:utf-8
-
+"""
+Change dictionary to string
+"""
 def dict_to_msg(dict):
     msg = ""
     for key in dict.keys():
@@ -7,6 +9,9 @@ def dict_to_msg(dict):
     msg += "."
     return msg
 
+"""
+Change string to dictionary
+"""
 def msg_to_dict(message):
     dict = {}
     m_pointer = 0
@@ -31,6 +36,9 @@ def msg_to_dict(message):
             break
     return dict
 
+"""
+Make transaction
+"""
 def input_transmission_data():
     data = {}
     print ("If you want to stop, type \"end\"")
@@ -45,6 +53,9 @@ def input_transmission_data():
     data["pub_low_lim"] = int(input())
     return data
 
+"""
+Get address from textfile
+"""
 def get_address(address_file):
     address_book = open(address_file, "r")
     address = address_book.readlines()
@@ -53,12 +64,17 @@ def get_address(address_file):
         address[num] = address[num].rstrip("\n")
     return address
 
-
+"""
+Write text to file
+"""
 def write_ledger(contents):
     openledger = open("ledger.txt", "a")
     openledger.write(contents + "\n")
     openledger.close()
 
+"""
+Check signature to judgement whether transaction have been rewritten
+"""
 def cer_add(text, key, mod_num):
     decrypted_text = decrypt(text, key, mod_num)
     if decrypted_text.startswith("From" + str(key) + ":"):
@@ -66,6 +82,9 @@ def cer_add(text, key, mod_num):
     else:
         return False
 
+"""
+RSA-encrypt text with key and modulo number
+"""
 def encrypt(text, key, mod_num):
     text_int = []
     for char in text:
@@ -79,6 +98,9 @@ def encrypt(text, key, mod_num):
     enc_text = " ".join(enc_text_int_str)
     return enc_text
 
+"""
+RSA-decrypt text with key and modulo number
+"""
 def decrypt(text, key, mod_num):
     text_int_str = text.split(" ")
     text_int = []
@@ -93,6 +115,9 @@ def decrypt(text, key, mod_num):
     dec_text = "".join(dec_text_list)
     return dec_text
 
+"""
+Make RSA-keys with 2 prime numbers
+"""
 def make_keys(p, q, pub_low_lim):
     from math import gcd
     mod_num = p * q
@@ -107,6 +132,9 @@ def make_keys(p, q, pub_low_lim):
             break
     return {"pri_key":pri_key, "pub_key":pub_key, "mod_num":mod_num}
 
+"""
+Find bigger prime number than inputed number
+"""
 def make_prime_num(low_lim):
     if low_lim == 2:
         return 2

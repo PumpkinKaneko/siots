@@ -5,27 +5,45 @@ from websocket import create_connection
 import ModulePack as MP
 import threading
 import time
-import json
 
+"""
+Called when core node contact
+"""
 def new_client(client, server):
     print (client["address"][0] + " contacted")
+
+"""
+Define websocket server
+"""
 def wsserver(address):
     server = WebsocketServer(9998, host=address)
     server.set_fn_new_client(new_client)
     server.set_fn_message_received(msg_reaction)
     server.run_forever()
 
+"""
+Called when server receive message
+"""
 def msg_reaction(client, server, rec_msg):
     rec_json = MP.msg_to_dict(rec_msg)
     react_func(rec_json)
 
+"""
+Define reaction to message
+"""
 def react_func(json_file):
     print(json_file["result"])
 
+"""
+Send json file to opponent
+"""
 def ws_transmission(ws, json_file):
     sendmsg = MP.dict_to_msg(json_file)
     ws.send(sendmsg)
 
+"""
+Run server on sub thread
+"""
 class PBFTServer(threading.Thread):
     def __init__(self, address):
         threading.Thread.__init__(self)

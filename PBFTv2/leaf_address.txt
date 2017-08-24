@@ -1,2 +1,4 @@
-192.168.11.5
-192.168.11.5
+192.168.11.5(self ip)
+192.168.11.2(core ip)
+
+Delete (), words in () and this sentence.

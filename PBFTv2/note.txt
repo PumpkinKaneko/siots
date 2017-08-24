@@ -1,7 +1,0 @@
-core_address.txtの書き方
-1行目2行目:自分のIP
-３行目以降:接続先のIP
-
-leaf_address.txtの書き方
-1行目:自分のIP
-2行目:接続先のIP
