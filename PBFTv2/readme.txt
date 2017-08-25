@@ -3,7 +3,7 @@ This should be run on 3 or more PCs with python3.
 
 How to run
   Download these files to your PCs.
-  Pip3 install websocket-server and websocket-client to your PCs.
+  Pip3 install pycrypto, websocket-server and websocket-client to your PCs.
   Decide which PCs will be core-node.
   Rewrite core_address.txt of core-node PCs based on example.
   Rewrite each leaf_address.txt too.

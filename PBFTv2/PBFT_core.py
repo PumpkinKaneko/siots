@@ -5,6 +5,7 @@ from websocket import create_connection
 import ModulePack as MP
 import threading
 import time
+import hashlib
 
 """
 Called when new client entry
@@ -26,7 +27,7 @@ def wsserver(address):
 Called when server receive message
 """
 def msg_reaction(client, server, rec_msg):
-    rec_json = MP.msg_to_dict(rec_msg)
+    rec_json = MP.str_to_dic(rec_msg)
     react_func(rec_json, client["address"][0])
 
 """
@@ -37,12 +38,11 @@ def react_func(json_file, sender_add):
     requestID = json_file["requestID"]
     if title == "request":
         contents = json_file["contents"]
-        key = int(json_file["key"])
-        mod_num = int(json_file["mod_num"])
-        dec_con = MP.decrypt(contents, key, mod_num)
-        request_data[requestID] = {"num_per":0, "num_den":0, "sender_add":json_file["sender_add"], "contents":dec_con}
+        mod = int(json_file["mod"])
+        sig = json_file["signature"]
+        request_data[requestID] = {"num_per":0, "num_den":0, "sender_add":json_file["sender_add"], "contents":contents}
         time.sleep(0.1)
-        if MP.cer_add(contents, key, mod_num):
+        if MP.cer_add(contents, sig, mod):
             ws_broadcast(ws_list, {"title":"react", "requestID":requestID, "permission":"permited"})
         else:
             ws_broadcast(ws_list, {"title":"react", "requestID":requestID, "permission":"denied"})
@@ -59,13 +59,14 @@ def react_func(json_file, sender_add):
                 ws_to_leaf(request_data[requestID]["sender_add"], "Transaction_was_not_written")
                 del(request_data[requestID])
     elif title == "transaction":
+        print ("Received transaction from " + sender_add)
         tra_data = {}
         tra_data["title"] = "request"
         tra_data["sender_add"] = sender_add
         tra_data["requestID"] = requestID
         tra_data["contents"] = json_file["contents"]
-        tra_data["key"] = json_file["key"]
-        tra_data["mod_num"] = json_file["mod_num"]
+        tra_data["mod"] = json_file["mod"]
+        tra_data["signature"] = json_file["signature"]
         ws_broadcast(ws_list, tra_data)
 
 """
@@ -81,7 +82,7 @@ def ws_core_connect(address):
 Send json file to opponent
 """
 def ws_transmission(ws, json_file):
-    sendmsg = MP.dict_to_msg(json_file)
+    sendmsg = MP.dic_to_str(json_file)
     ws.send(sendmsg)
 
 """
