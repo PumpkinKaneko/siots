@@ -50,14 +50,17 @@ def react_func(json_file, sender_add):
         if json_file["permission"] == "permited":
             request_data[requestID]["num_per"] += 1
             if request_data[requestID]["num_per"] >= ws_per_rate:
-                MP.write_ledger(request_data[requestID]["contents"])
-                ws_to_leaf(request_data[requestID]["sender_add"], "Transaction_was_written")
+                written_con = request_data[requestID]["contents"]
+                tra_cre = request_data[requestID]["sender_add"]
+                MP.write_ledger(written_con)
+                ws_to_leaf(tra_cre, "Transaction_was_written")
                 del(request_data[requestID])
         elif json_file["permission"] == "denied":
             request_data[requestID]["num_den"] += 1
             if request_data[requestID]["num_den"] > ws_den_rate:
-                ws_to_leaf(request_data[requestID]["sender_add"], "Transaction_was_not_written")
+                tra_cre = request_data[requestID]["sender_add"]
                 del(request_data[requestID])
+                ws_to_leaf(tra_cre, "Transaction_was_not_written")
     elif title == "transaction":
         print ("Received transaction from " + sender_add)
         tra_data = {}
