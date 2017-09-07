@@ -35,7 +35,7 @@ Define reaction to message
 """
 def react_func(json_file, sender_add):
     if json_file["title"] == "req_to_leaf":
-        expect_data = APP.expect(json_file)
+        expect_data = APP.expect(json_file, way="bias_6")
         signature = MP.gen_sig(expect_data + json_file["questionID"], keys["key"], keys["mod"])
         leaf_expect = {"title":"leaf_expect", "questionID":json_file["questionID"], "contents":expect_data, "signature":signature}
         ws_transmission(ws_core, leaf_expect)

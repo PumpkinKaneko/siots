@@ -68,7 +68,7 @@ def react_func(json_file, sender_add):
                 deadline = question_data[json_file["questionID"]]["deadline"]
                 req_to_leaf = {"title":"req_to_leaf", "questionID":questionID, "contents":contents, "deadline":deadline}
                 leaf_broadcast(req_to_leaf)
-                time.sleep(question_data[json_file["questionID"]]["deadline"] + 0.1)
+                time.sleep(question_data[json_file["questionID"]]["deadline"] + 0.3)
                 leaf_expects = {"title":"leaf_expects", "questionID":json_file["questionID"], "contents":question_data[json_file["questionID"]]["leaf_expects"]}
                 ws_broadcast(leaf_expects)
                 if core_address[0] == question_data[json_file["questionID"]]["core"]:
